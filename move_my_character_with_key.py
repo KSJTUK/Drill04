@@ -30,7 +30,11 @@ while running:
 
 	# draw idle animation
 	# idle animation frame size: 30, 49, start pos: 0, 434(483 - 49)
-	character_sonic.clip_draw(frame * 30, 434, 30, 49, x, y, *sonic_size)
+	# character_sonic.clip_draw(frame * 30, 434, 30, 49, x, y, *sonic_size)
+
+	# draw running animation
+	# running animation frame size: 37, 49, start pos: 0, 385(434 - 39)
+	character_sonic.clip_draw(frame * 37, 385, 37, 49, x, y, *sonic_size)
 
 	update_canvas()
 	event_handle()
