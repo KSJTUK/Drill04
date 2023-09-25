@@ -32,7 +32,6 @@ def event_handle():
 		if event.type == SDL_QUIT:
 			running = False
 		elif event.type == SDL_KEYDOWN:
-			animation = "running"
 			if event.key == SDLK_ESCAPE:
 				running = False
 			elif event.key == SDLK_LEFT:
@@ -43,8 +42,8 @@ def event_handle():
 				dirY += 1
 			elif event.key == SDLK_DOWN:
 				dirY -= 1
+
 		elif event.type == SDL_KEYUP:
-			animation = "idle"
 			if event.key == SDLK_LEFT:
 				dirX += 1
 			elif event.key == SDLK_RIGHT:
@@ -66,6 +65,10 @@ animation = "idle"
 # set sonic's animation
 def set_sonic_animation(animation):
 	global frame_size, frame_cnt, frame_y
+	if dirX == 0 and dirY == 0:
+		animation = "idle"
+	else:
+		animation = "running"
 
 	if animation == "idle":
 		frame_size = 30, 49
