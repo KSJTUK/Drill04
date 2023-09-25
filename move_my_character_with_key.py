@@ -2,7 +2,8 @@ from pico2d import *
 
 running = True
 
-TUK_WIDTH, TUK_HEIGHT = 1280, 1024
+# test 800, 600
+TUK_WIDTH, TUK_HEIGHT = 800, 600
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
 
 tuk_ground = load_image('TUK_GROUND.png')
@@ -10,6 +11,18 @@ character_sonic = load_image('sonic.png')
 # sprite size 805 x 483
 # y size default 49
 # 4, 5th y size 70 : 49 * 7 + 70 * 2 = 483
+
+def block_move_out_window():
+	global x, y
+	if x < sonic_size[0] // 2:
+		x = sonic_size[0] // 2
+	elif x > TUK_WIDTH - sonic_size[0] // 2:
+		x = TUK_WIDTH - sonic_size[0] // 2
+
+	if y < sonic_size[1] // 2:
+		y = sonic_size[1] // 2
+	elif y > TUK_HEIGHT - sonic_size[1] // 2:
+		y = TUK_HEIGHT - sonic_size[1] // 2
 
 def event_handle():
 	global running, dirX, dirY, animation
@@ -66,14 +79,6 @@ def set_sonic_animation(animation):
 while running:
 	tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
 
-	# draw idle animation
-	# idle animation frame size: 30, 49, start pos: 0, 434(483 - 49)
-	# character_sonic.clip_draw(frame * 30, 434, 30, 49, x, y, *sonic_size)
-
-	# draw running animation
-	# running animation frame size: 37, 49, start pos: 0, 385(434 - 39)
-	# character_sonic.clip_draw(frame * 37, 385, 37, 49, x, y, *sonic_size)
-
 	character_sonic.clip_draw(frame * frame_size[0], frame_y, *frame_size, x, y, *sonic_size)
 
 	update_canvas()
@@ -84,6 +89,8 @@ while running:
 	frame = (frame + 1) % frame_cnt
 	x += dirX * 5
 	y += dirY * 5
+
+	block_move_out_window()
 
 	delay(0.05)
 
