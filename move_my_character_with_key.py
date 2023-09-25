@@ -12,15 +12,36 @@ character_sonic = load_image('sonic.png')
 # 4, 5th y size 70 : 49 * 7 + 70 * 2 = 483
 
 def event_handle():
-	global running
+	global running, dirX, dirY
 
 	events = get_events()
 	for event in events:
 		if event.type == SDL_QUIT:
 			running = False
-		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-			running = False
+		elif event.type == SDL_KEYDOWN:
+			if event.key == SDLK_ESCAPE:
+				running = False
+			elif event.key == SDLK_LEFT:
+				dirX -= 1
+			elif event.key == SDLK_RIGHT:
+				dirX += 1
+			elif event.key == SDLK_UP:
+				dirY += 1
+			elif event.key == SDLK_DOWN:
+				dirY -= 1
+		elif event.type == SDL_KEYUP:
+			if event.key == SDLK_LEFT:
+				dirX += 1
+			elif event.key == SDLK_RIGHT:
+				dirX -= 1
+			elif event.key == SDLK_UP:
+				dirY -= 1
+			elif event.key == SDLK_DOWN:
+				dirY += 1
 
+
+
+dirX, dirY = 0, 0
 frame = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 sonic_size = 60, 100
@@ -40,6 +61,8 @@ while running:
 	event_handle()
 
 	frame = (frame + 1) % 6
+	x += dirX * 5
+	y += dirY * 5
 
 	delay(0.05)
 
