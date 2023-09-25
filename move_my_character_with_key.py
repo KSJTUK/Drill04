@@ -8,6 +8,8 @@ open_canvas(TUK_WIDTH, TUK_HEIGHT)
 tuk_ground = load_image('TUK_GROUND.png')
 character_sonic = load_image('sonic.png')
 # sprite size 805 x 483
+# y size default 49
+# 4, 5th y size 70 : 49 * 7 + 70 * 2 = 483
 
 def event_handle():
 	global running
@@ -19,13 +21,22 @@ def event_handle():
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
 			running = False
 
+frame = 0
+x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+sonic_size = 60, 100
+
 while running:
-	frame = 0
 	tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-	# idle frame size 30, 50, pos 0, 433
-	character_sonic.clip_draw(frame * 30, 433, 30, 50, TUK_WIDTH // 2, TUK_HEIGHT // 2, 50, 100)
+
+	# draw idle animation
+	# idle animation frame size: 30, 49, start pos: 0, 434(483 - 49)
+	character_sonic.clip_draw(frame * 30, 434, 30, 49, x, y, *sonic_size)
+
 	update_canvas()
 	event_handle()
+
+	frame = (frame + 1) % 6
+
 	delay(0.05)
 
 close_canvas()
